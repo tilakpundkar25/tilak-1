@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>I Am Truly Sorry</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Georgia', serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: black;
+        height: 100vh;
+        overflow-x: hidden;
+        transition: background 2s;
+    }
+
+    * {
+        color: black !important;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: auto;
+        padding: 40px;
+        animation: fadeIn 3s ease;
+    }
+
+    h1 {
+        text-align: center;
+        font-size: 2.8em;
+        margin-bottom: 20px;
+        animation: heartbeat 2s infinite;
+    }
+
+    .letter {
+        font-size: 1.2em;
+        line-height: 1.8;
+        background: rgba(255,255,255,0.8);
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+
+    .silent {
+        text-align: center;
+        margin-top: 30px;
+        font-style: italic;
+        font-size: 1.3em;
+        animation: pulse 2s infinite;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 1.1em;
+        opacity: 0.9;
+    }
+
+    .question {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 1.5em;
+        display: none;
+    }
+
+    .buttons {
+        text-align: center;
+        margin-top: 20px;
+        display: none;
+    }
+
+    button {
+        padding: 12px 30px;
+        margin: 10px;
+        font-size: 1.1em;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+    }
+
+    .yes { background: #ff7eb3; }
+    .no { background: #444; }
+
+    .floating {
+        position: fixed;
+        left: 50%;
+        bottom: 40%;
+        transform: translateX(-50%);
+        font-size: 2em;
+        animation: floatUp 4s ease-in-out;
+    }
+
+    .admin {
+        position: fixed;
+        top: 15px;
+        right: 20px;
+        background: #fff;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.9em;
+        cursor: pointer;
+        box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        z-index: 999;
+    }
+
+    @keyframes floatUp {
+        from { opacity: 0; transform: translate(-50%, 40px); }
+        to { opacity: 1; transform: translate(-50%, -120px); }
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes heartbeat {
+        0%,50%,100% { transform: scale(1); }
+        25%,75% { transform: scale(1.05); }
+    }
+
+    @keyframes pulse {
+        0% { opacity: 0.6; }
+        50% { opacity: 1; }
+        100% { opacity: 0.6; }
+    }
+
+    .tear {
+        position: fixed;
+        top: -20px;
+        width: 6px;
+        height: 12px;
+        background: rgba(173,216,230,0.7);
+        border-radius: 50%;
+        animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+        to { transform: translateY(110vh); opacity: 0; }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="admin" onclick="adminAccess()">Admin</div>
+
+<div class="container" id="mainContainer">
+    <h1>I Am Truly Sorry 😔💗</h1>
+
+    <div class="letter">
+        <p>I am writing this with a heart full of guilt and regret.</p>
+        <p>But I crossed a boundary I should never have crossed.</p>
+        <p>There is no excuse for my action.</p>
+        <p>I respect you, and I failed to show that respect.</p>
+        <p>I am truly, deeply sorry.</p>
+    </div>
+
+    <div class="silent">
+        Your silence hurts me more than any words.<br>
+        I cannot sleep with this guilt in my heart.
+    </div>
+
+    <div class="footer">
+        With regret, respect, and a sincere apology.
+    </div>
+
+    <div class="question" id="question">
+        😔💗 Did you forgive me?
+    </div>
+
+    <div class="buttons" id="buttons">
+        <button class="yes" onclick="yesClicked()">Yes</button>
+        <button class="no" onclick="noClicked()">No</button>
+    </div>
+</div>
+
+<script>
+let userAnswer = "No response yet";
+
+/* GOOGLE FORM SENDER */
+function sendToGoogleForm(answer) {
+    const formURL =
+      "https://docs.google.com/forms/d/e/1FAIpQLSdu543lLSfrIyLN2zgHNkKcCBi6zyRyqBGv-SMGb1xjiD4f9g/formResponse";
+    const entryID = "entry.56049395";
+
+    const data = new FormData();
+    data.append(entryID, answer);
+
+    fetch(formURL, {
+        method: "POST",
+        mode: "no-cors",
+        body: data
+    });
+}
+
+/* Falling tears */
+for (let i = 0; i < 30; i++) {
+    let tear = document.createElement("div");
+    tear.className = "tear";
+    tear.style.left = Math.random() * 100 + "vw";
+    tear.style.animationDuration = (Math.random() * 3 + 2) + "s";
+    tear.style.animationDelay = Math.random() * 5 + "s";
+    document.body.appendChild(tear);
+}
+
+setTimeout(() => {
+    document.getElementById("question").style.display = "block";
+    document.getElementById("buttons").style.display = "block";
+}, 3000);
+
+function noClicked() {
+    userAnswer = "She clicked NO";
+    sendToGoogleForm("NO");
+
+    document.body.style.background = "black";
+    document.getElementById("mainContainer").innerHTML = "";
+    let msg = document.createElement("div");
+    msg.className = "letter";
+    document.body.appendChild(msg);
+
+    let text = "Okay. I respect your answer. Whatever punishment you choose I will accept it. If you don’t want me to stay, I agree. I am sorry 😭";
+    typeText(msg, text, () => setTimeout(() => window.close(), 4000));
+}
+
+function yesClicked() {
+    userAnswer = "She clicked YES";
+    sendToGoogleForm("YES");
+
+    document.body.style.background = "#ffc0cb";
+    document.getElementById("mainContainer").innerHTML = "";
+    let msg = document.createElement("div");
+    msg.className = "letter";
+    document.body.appendChild(msg);
+
+    let text = "Thank you so much. I promise I will never repeat this again. It is my mistake. I am asking for punishment. I seriously don’t know how this happened, but again I am so sorry 🙏";
+    typeText(msg, text, () => {
+        let love = document.createElement("div");
+        love.className = "floating";
+        love.innerText = "I love you so much 💗";
+        document.body.appendChild(love);
+        setTimeout(() => window.close(), 4000);
+    });
+}
+
+function typeText(element, text, callback) {
+    let i = 0;
+    element.innerHTML = "";
+    function typing() {
+        if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(typing, 40);
+        } else if (callback) {
+            callback();
+        }
+    }
+    typing();
+}
+
+function adminAccess() {
+    let code = prompt("Enter Admin Security Code:");
+    if (code === "ram") {
+        alert("ADMIN ACCESS GRANTED\n\nLatest answer is saved in Google Form.");
+    } else {
+        alert("Wrong security code ❌");
+    }
+}
+</script>
+
+</body>
+</html>
